@@ -1,16 +1,26 @@
 Package: rcalibration
-Title: What the Package Does (One Line, Title Case)
+Title: Estimating and Testing Calibration of Probabilistic Predictive Models
 Version: 0.0.0.9000
 Authors@R: 
-    person(given = "First",
-           family = "Last",
+    person(given = "David",
+           family = "Widmann",
            role = c("aut", "cre"),
-           email = "first.last@example.com",
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
-License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
-    license
+           email = "david.widmann@it.uu.se",
+           comment = c(ORCID = "0000-0001-9282-053X"))
+Description: An interface to the Julia packages 'CalibrationErrors.jl' <https://github.com/devmotion/CalibrationErrors.jl>,
+    'CalibrationTests.jl' <https://github.com/devmotion/CalibrationTests.jl>, and
+    'CalibrationErrorsDistributions.jl' <https://github.com/devmotion/CalibrationErrorsDistributions.jl>.
+    The package allows the estimation of calibration errors such as ECE, SKCE, and UCME,
+    and statistical testing of the null hypothesis that a probabilistic predictive model is calibrated.
+License: MIT + file LICENSE
 Encoding: UTF-8
+URL: https://github.com/devmotion/rcalibration
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
+Imports:
+    JuliaCall
+Suggests:
+    testthat (>= 3.0.0),
+    extraDistr
+Config/testthat/edition: 3
