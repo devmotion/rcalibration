@@ -188,10 +188,10 @@ that a model is calibrated, based on a set of predictions and outcomes:
 > set.seed(1234)
 > predictions <- rdirichlet(100, c(3, 2, 5))
 > outcomes <- sample(1:3, 100, replace=TRUE)
-> kernel <- ct$tensor(ct$TVExponentialKernel(), ct$WhiteKernel())
+> kernel <- ct$tensor(ct$ExponentialKernel(metric=ct$TotalVariation()), ct$WhiteKernel())
 > test <- ct$AsymptoticSKCETest(kernel, ce$RowVecs(predictions), outcomes)
 > print(test)
-Julia Object of type AsymptoticSKCETest{KernelTensorProduct{Tuple{TVExponentialKernel, WhiteKernel}}, Float64, Float64, Matrix{Float64}}.
+Julia Object of type AsymptoticSKCETest{KernelTensorProduct{Tuple{ExponentialKernel{TotalVariation}, WhiteKernel}}, Float64, Float64, Matrix{Float64}}.
 Asymptotic SKCE test
 --------------------
 Population details:
