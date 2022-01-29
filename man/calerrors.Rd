@@ -2,10 +2,10 @@
 % Please edit documentation in R/load.R
 \name{calerrors}
 \alias{calerrors}
-\title{Load namespace of CalibrationErrors.jl and CalibrationErrorsDistributions.jl}
+\title{Load namespace of CalibrationErrors.jl}
 \usage{
 calerrors()
 }
 \description{
-Load namespace of CalibrationErrors.jl and CalibrationErrorsDistributions.jl
+Load namespace of CalibrationErrors.jl
 }

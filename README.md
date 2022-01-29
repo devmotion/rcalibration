@@ -1,18 +1,15 @@
 # rcalibration
 
-Estimation and hypothesis tests of calibration in R using CalibrationErrors.jl,
-CalibrationErrorsDistributions.jl, and CalibrationTests.jl.
+Estimation and hypothesis tests of calibration in R using CalibrationErrors.jl and CalibrationTests.jl.
 
 [![Stable](https://img.shields.io/badge/Julia%20docs-stable-blue.svg)](https://devmotion.github.io/CalibrationErrors.jl/stable)
 [![Dev](https://img.shields.io/badge/Julia%20docs-dev-blue.svg)](https://devmotion.github.io/CalibrationErrors.jl/dev)
 [![R-CMD-check](https://github.com/devmotion/rcalibration/workflows/R-CMD-check/badge.svg?branch=main)](https://github.com/devmotion/rcalibration/actions?query=workflow%3AR-CMD-check+branch%3Amain)
 [![CalibrationErrors.jl Status](https://img.shields.io/github/workflow/status/devmotion/CalibrationErrors.jl/CI/main?label=CalibrationErrors.jl)](https://github.com/devmotion/CalibrationErrors.jl/actions?query=workflow%3ACI+branch%3Amain)
-[![CalibrationErrorsDistributions.jl Status](https://img.shields.io/github/workflow/status/devmotion/CalibrationErrorsDistributions.jl/CI/main?label=CalibrationErrorsDistributions.jl)](https://github.com/devmotion/CalibrationErrorsDistributions.jl/actions?query=workflow%3ACI+branch%3Amain)
 [![CalibrationTests.jl Status](https://img.shields.io/github/workflow/status/devmotion/CalibrationTests.jl/CI/main?label=CalibrationTests.jl)](https://github.com/devmotion/CalibrationTests.jl/actions?query=workflow%3ACI+branch%3Amain)
 
 rcalibration is a package for estimating calibration of probabilistic models in R.
-It uses [CalibrationErrors.jl](https://github.com/devmotion/CalibrationErrors.jl),
-[CalibrationErrorsDistributions.jl](https://github.com/devmotion/CalibrationErrorsDistributions.jl),
+It uses [CalibrationErrors.jl](https://github.com/devmotion/CalibrationErrors.jl)
 and [CalibrationTests.jl](https://github.com/devmotion/CalibrationTests.jl) for its
 computations. As such, the package allows the estimation of calibration errors (ECE and
 SKCE) and statistical testing of the null hypothesis that a model is calibrated.
@@ -76,8 +73,7 @@ Import and setup
   ```
 
 You can then do the same as would be done in Julia, except you have to add
-`ce$` or `ct$` in front for functionality
-from CalibrationErrors.jl and CalibrationErrorsDistributions.jl or
+`ce$` or `ct$` in front for functionality from CalibrationErrors.jl or
 CalibrationTests.jl, respectively. Most of the commands will work without
 any modification. Thus the documentation of the Julia packages are the main
 in-depth documentation for this package.
@@ -100,7 +96,7 @@ from a set of predictions and corresponding observed outcomes.
 
 ```R
 > ce <- calerrors()
-> skce <- ce$UnbiasedSKCE(ce$tensor(ce$ExponentialKernel(), ce$WhiteKernel()))
+> skce <- ce$SKCE(ce$tensor(ce$ExponentialKernel(), ce$WhiteKernel()))
 ```
 
 Other estimators of the SKCE and estimators of other calibration errors such
@@ -167,7 +163,7 @@ where `p = N(μ, σ)` and `p̃ = N(μ̃, σ̃)`.
 > set.seed(1234)
 > predictions <- replicate(100, ce$Normal(rnorm(1), runif(1)))
 > outcomes <- rnorm(100)
-> skce <- ce$UnbiasedSKCE(ce$tensor(ce$WassersteinExponentialKernel(), ce$SqExponentialKernel()))
+> skce <- ce$SKCE(ce$tensor(ce$ExponentialKernel(metric=ce$Wasserstein()), ce$SqExponentialKernel()))
 > skce$.(predictions, outcomes)
 [1] 0.02301165
 ```
