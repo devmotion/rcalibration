@@ -1,7 +1,7 @@
-#' Load namespace of CalibrationErrors.jl and CalibrationErrorsDistributions.jl
+#' Load namespace of CalibrationErrors.jl
 #'
 #' @export
-calerrors <- function() wrap_julia_pkg("CalibrationErrorsDistributions")
+calerrors <- function() wrap_julia_pkg("CalibrationErrors")
 
 #' Load namespace of CalibrationTests.jl
 #'

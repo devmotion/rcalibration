@@ -10,7 +10,7 @@ targets_onlytwo <- rep(2L, 500)
 kernel <- ct$tensor(ct$compose(ct$ExponentialKernel(), ct$ScaleTransform(3)), ct$WhiteKernel())
 
 test_that("Consistency test", {
-  estimators <- list(ct$BiasedSKCE(kernel), ct$UnbiasedSKCE(kernel))
+  estimators <- list(ct$SKCE(kernel, unbiased=FALSE), ct$SKCE(kernel))
   for (estimator in estimators) {
     test <- ct$ConsistencyTest(estimator, ct$RowVecs(predictions), targets_consistent)
     expect_gte(ct$pvalue(test), 0.7)
@@ -23,7 +23,7 @@ test_that("Consistency test", {
 })
 
 test_that("Distribution-free test", {
-  estimators <- list(ct$BiasedSKCE(kernel), ct$UnbiasedSKCE(kernel), ct$BlockUnbiasedSKCE(kernel, 2L))
+  estimators <- list(ct$SKCE(kernel, unbiased=FALSE), ct$SKCE(kernel), ct$SKCE(kernel, blocksize=2L))
   for (i in seq_along(estimators)) {
     estimator <- estimators[[i]]
     test <- ct$DistributionFreeSKCETest(estimator, ct$RowVecs(predictions), targets_consistent)
