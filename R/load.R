@@ -1,12 +1,7 @@
-#' Load namespace of CalibrationErrors.jl
+#' Load namespace of CalibrationAnalysis.jl
 #'
 #' @export
-calerrors <- function() wrap_julia_pkg("CalibrationErrors")
-
-#' Load namespace of CalibrationTests.jl
-#'
-#' @export
-caltests <- function() wrap_julia_pkg("CalibrationTests")
+load <- function() wrap_julia_pkg("CalibrationAnalysis")
 
 wrap_julia_pkg <- function(pkg) {
   # precompile and load Julia package
