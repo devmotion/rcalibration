@@ -1,4 +1,5 @@
 # load calibration environment
+Sys.setenv(LD_LIBRARY_PATH = "")
 ca <- rcalibration::load()
 
 # sample data
