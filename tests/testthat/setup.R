@@ -1,4 +1,5 @@
 # setup Julia dependencies
+Sys.setenv(LD_LIBRARY_PATH = "")
 rcalibration::install()
 
 # install and load package for sampling from Dirichlet distribution
