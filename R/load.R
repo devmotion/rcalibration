@@ -5,7 +5,7 @@ load <- function() wrap_julia_pkg("CalibrationAnalysis")
 
 wrap_julia_pkg <- function(pkg) {
   # precompile and load Julia package
-  JuliaCall::julia_command(paste0("using ", pkg, ": ", pkg))
+  JuliaCall::julia_command(paste0("ENV[\"LD_LIBRARY_PATH\"] = \"\"; using ", pkg, ": ", pkg))
 
   # obtain a list of exported symbols with valid identifiers
   cmd <- paste0("filter(isascii, map(string, propertynames(", pkg, ")))")
