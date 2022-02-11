@@ -1,8 +1,8 @@
-#' Load namespace of CalibrationAnalysis.jl
+#' Load namespace of CalibrationErrors.jl and CalibrationTests.jl
 #'
 #' @export
 load <- function() {
-  ce = wrap_julia_pkg("CalibrationError")
+  ce = wrap_julia_pkg("CalibrationErrors")
   ct = wrap_julia_pkg("CalibrationTests")
   as.environment(sapply(c(ce, ct), as.list))
 }
