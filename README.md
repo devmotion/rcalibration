@@ -5,12 +5,11 @@ Estimation and hypothesis tests of calibration in R using CalibrationErrors.jl a
 [![Stable](https://img.shields.io/badge/Julia%20docs-stable-blue.svg)](https://devmotion.github.io/CalibrationErrors.jl/stable)
 [![Dev](https://img.shields.io/badge/Julia%20docs-dev-blue.svg)](https://devmotion.github.io/CalibrationErrors.jl/dev)
 [![R-CMD-check](https://github.com/devmotion/rcalibration/workflows/R-CMD-check/badge.svg?branch=main)](https://github.com/devmotion/rcalibration/actions?query=workflow%3AR-CMD-check+branch%3Amain)
-[![CalibrationAnalysis.jl Status](https://img.shields.io/github/workflow/status/devmotion/CalibrationAnalysis.jl/CI/main?label=CalibrationAnalysis.jl)](https://github.com/devmotion/CalibrationAnalysis.jl/actions?query=workflow%3ACI+branch%3Amain)
 [![CalibrationErrors.jl Status](https://img.shields.io/github/workflow/status/devmotion/CalibrationErrors.jl/CI/main?label=CalibrationErrors.jl)](https://github.com/devmotion/CalibrationErrors.jl/actions?query=workflow%3ACI+branch%3Amain)
 [![CalibrationTests.jl Status](https://img.shields.io/github/workflow/status/devmotion/CalibrationTests.jl/CI/main?label=CalibrationTests.jl)](https://github.com/devmotion/CalibrationTests.jl/actions?query=workflow%3ACI+branch%3Amain)
 
 rcalibration is a package for estimating calibration of probabilistic models in R.
-It is an R interface for the [CalibrationAnalysis.jl](https://github.com/devmotion/CalibrationAnalysis.jl) suite and uses [CalibrationErrors.jl](https://github.com/devmotion/CalibrationErrors.jl) and [CalibrationTests.jl](https://github.com/devmotion/CalibrationTests.jl) for its computations.
+It is an R interface for [CalibrationErrors.jl](https://github.com/devmotion/CalibrationErrors.jl) and [CalibrationTests.jl](https://github.com/devmotion/CalibrationTests.jl).
 As such, the package allows the estimation of calibration errors (ECE and SKCE) and statistical testing of the null hypothesis that a model is calibrated.
 
 ## Installation
@@ -60,14 +59,14 @@ export JULIA_PROJECT="path/to/the/environment/"
 
 ## Usage
 
-Import and setup calibration analysis tools from CalibrationsAnalysis.jl with
+Import and setup calibration analysis tools from CalibrationErrors.jl and CalibrationTests.jl with
 ```R
 > ca <- rcalibration::load()
 ```
 
-You can then do the same as would be done in Julia, except you have to add `ca$` in front for functionality from CalibrationAnalysis.jl.
+You can then do the same as would be done in Julia, except you have to add `ca$` in front for functionality from the Julia packages.
 Most of the commands will work without any modification.
-Thus the documentation of the Julia package is the main in-depth documentation for this package.
+Thus the documentation of the Julia packages is the main in-depth documentation for this package.
 
 ### Callable objects
 

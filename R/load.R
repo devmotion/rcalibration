@@ -1,14 +1,18 @@
 #' Load namespace of CalibrationAnalysis.jl
 #'
 #' @export
-load <- function() wrap_julia_pkg("CalibrationAnalysis")
+load <- function() {
+  ce = wrap_julia_pkg("CalibrationError")
+  ct = wrap_julia_pkg("CalibrationTests")
+  as.environment(sapply(c(ce, ct), as.list))
+}
 
 wrap_julia_pkg <- function(pkg) {
   # precompile and load Julia package
-  JuliaCall::julia_command(paste0("ENV[\"LD_LIBRARY_PATH\"] = \"\"; using ", pkg, ": ", pkg))
+  JuliaCall::julia_library(pkg)
 
   # obtain a list of exported symbols with valid identifiers
-  cmd <- paste0("filter(isascii, map(string, propertynames(", pkg, ")))")
+  cmd <- paste0("filter(isascii, map(x -> replace(string(x), \"!\" => \"_bang\"), propertynames(", pkg, ")))")
   exports <- JuliaCall::julia_eval(cmd)
 
   JuliaCall::julia_pkg_import(pkg, func_list = exports)
