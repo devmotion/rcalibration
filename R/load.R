@@ -9,7 +9,7 @@ load <- function() {
   mods <- c("RCalibration.CalibrationErrors", "RCalibration.CalibrationTests")
   exports <- unique(unlist(lapply(mods, julia_exports)))
 
-  JuliaCall::julia_pkg_import("RCalibration", exports)
+  JuliaCall::julia_pkg_import("Main.RCalibration", exports)
 }
 
 #' Obtain a list of exported symbols with valid identifiers
