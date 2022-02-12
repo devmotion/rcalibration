@@ -2,7 +2,7 @@
 #'
 #' @export
 load <- function() {
-  # Load RCalibration julia package
+  # Load RCalibration package
   JuliaCall::julia_library("RCalibration")
 
   # Obtain exports of CalibrationErrors and CalibrationTests
