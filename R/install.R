@@ -6,5 +6,5 @@
 #
 #' @export
 install <- function() {
-  JuliaCall::julia_command("x = 2")
+  JuliaCall::julia_command(paste0('include("', system.file("julia/install.jl", package = "rcalibration"), '")'))
 }

@@ -2,19 +2,14 @@
 #'
 #' @export
 load <- function() {
-  # Update Julia LOAD_PATH and instantiate projects
-  load_path <- system.file("julia/RCalibration", package = "rcalibration")
-  JuliaCall::julia_command(paste0('first(LOAD_PATH) != "', load_path, '" && pushfirst!(LOAD_PATH, "', load_path, '");'))
-  JuliaCall::julia_command("import Pkg; Pkg.instantiate()")
-
-  # Load RCalibration package
-  JuliaCall::julia_library("RCalibration")
+  # Define RCalibration submodule
+  JuliaCall::julia_command(paste0('include("', system.file("julia/RCalibration.jl", package = "rcalibration"), '")'))
 
   # Obtain exports of CalibrationErrors and CalibrationTests
   mods <- c("RCalibration.CalibrationErrors", "RCalibration.CalibrationTests")
   exports <- unique(unlist(lapply(mods, julia_exports)))
 
-  JuliaCall::julia_pkg_import("RCalibration", exports)
+  JuliaCall::julia_pkg_import("Main.RCalibration", exports)
 }
 
 #' Obtain a list of exported symbols with valid identifiers
