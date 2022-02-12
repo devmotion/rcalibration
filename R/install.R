@@ -6,4 +6,5 @@
 #
 #' @export
 install <- function() {
+  JuliaCall::julia_command("x = 2")
 }
