@@ -9,10 +9,8 @@ Estimation and hypothesis tests of calibration in R using CalibrationErrors.jl a
 [![CalibrationTests.jl Status](https://img.shields.io/github/workflow/status/devmotion/CalibrationTests.jl/CI/main?label=CalibrationTests.jl)](https://github.com/devmotion/CalibrationTests.jl/actions?query=workflow%3ACI+branch%3Amain)
 
 rcalibration is a package for estimating calibration of probabilistic models in R.
-It uses [CalibrationErrors.jl](https://github.com/devmotion/CalibrationErrors.jl)
-and [CalibrationTests.jl](https://github.com/devmotion/CalibrationTests.jl) for its
-computations. As such, the package allows the estimation of calibration errors (ECE and
-SKCE) and statistical testing of the null hypothesis that a model is calibrated.
+It is an R interface for [CalibrationErrors.jl](https://github.com/devmotion/CalibrationErrors.jl) and [CalibrationTests.jl](https://github.com/devmotion/CalibrationTests.jl).
+As such, the package allows the estimation of calibration errors (ECE and SKCE) and statistical testing of the null hypothesis that a model is calibrated.
 
 ## Installation
 
@@ -61,22 +59,14 @@ export JULIA_PROJECT="path/to/the/environment/"
 
 ## Usage
 
-Import and setup
+Import and setup calibration analysis tools from CalibrationErrors.jl and CalibrationTests.jl with
+```R
+> ca <- rcalibration::load()
+```
 
-- estimation of calibration errors with
-  ```R
-  > ce <- calerrors()
-  ```
-- statistical hypothesis tests for calibration with
-  ```R
-  > ct <- caltests()
-  ```
-
-You can then do the same as would be done in Julia, except you have to add
-`ce$` or `ct$` in front for functionality from CalibrationErrors.jl or
-CalibrationTests.jl, respectively. Most of the commands will work without
-any modification. Thus the documentation of the Julia packages are the main
-in-depth documentation for this package.
+You can then do the same as would be done in Julia, except you have to add `ca$` in front for functionality from the Julia packages.
+Most of the commands will work without any modification.
+Thus the documentation of the Julia packages is the main in-depth documentation for this package.
 
 ### Callable objects
 
@@ -95,8 +85,7 @@ k((p, y), (p̃, ỹ)) = exp(-|p - p̃|) δ(y - ỹ)
 from a set of predictions and corresponding observed outcomes.
 
 ```R
-> ce <- calerrors()
-> skce <- ce$SKCE(ce$tensor(ce$ExponentialKernel(), ce$WhiteKernel()))
+> skce <- ca$SKCE(ca$tensor(ca$ExponentialKernel(), ca$WhiteKernel()))
 ```
 
 Other estimators of the SKCE and estimators of other calibration errors such
@@ -127,7 +116,7 @@ simplex) as well. In this case, the predictions correspond to categorical
 distributions with these class probabilities and the targets are integers in `{1,...,n}`.
 The probability vectors can be given as a matrix. However, it is
 required to specify if the probability vectors correspond to rows or columns of the matrix
-by wrapping them in `ce.RowVecs` and `ce.ColVecs`, respectively. These wrappers are defined
+by wrapping them in `ca.RowVecs` and `ca.ColVecs`, respectively. These wrappers are defined
 in [KernelFunctions.jl](https://github.com/JuliaGaussianProcesses/KernelFunctions.jl).
 
 ```R
@@ -135,7 +124,7 @@ in [KernelFunctions.jl](https://github.com/JuliaGaussianProcesses/KernelFunction
 > set.seed(1234)
 > predictions <- rdirichlet(100, c(3, 2, 5))
 > outcomes <- sample(1:3, 100, replace=TRUE)
-> skce$.(ce$RowVecs(predictions), outcomes)
+> skce$.(ca$RowVecs(predictions), outcomes)
 [1] 0.02585344
 ```
 
@@ -144,9 +133,9 @@ in [KernelFunctions.jl](https://github.com/JuliaGaussianProcesses/KernelFunction
 Predictions can also be provided as probability distributions defined in the
 Julia package [Distributions.jl](https://github.com/JuliaStats/Distributions.jl). Currently,
 analytical formulas for the estimators of the SKCE and unnormalized calibration mean embedding
-(UCME) are implemented for uni- and multivariate normal distributions `ce$Normal` and
-`ce$MvNormal` with squared exponential kernels on the target space and Laplace distributions
-`ce$Laplace` with exponential kernels on the target space.
+(UCME) are implemented for uni- and multivariate normal distributions `ca$Normal` and
+`ca$MvNormal` with squared exponential kernels on the target space and Laplace distributions
+`ca$Laplace` with exponential kernels on the target space.
 
 In this example we use the tensor product kernel
 ```math
@@ -161,9 +150,9 @@ where `p = N(μ, σ)` and `p̃ = N(μ̃, σ̃)`.
 
 ```R
 > set.seed(1234)
-> predictions <- replicate(100, ce$Normal(rnorm(1), runif(1)))
+> predictions <- replicate(100, ca$Normal(rnorm(1), runif(1)))
 > outcomes <- rnorm(100)
-> skce <- ce$SKCE(ce$tensor(ce$ExponentialKernel(metric=ce$Wasserstein()), ce$SqExponentialKernel()))
+> skce <- ca$SKCE(ca$tensor(ca$ExponentialKernel(metric=ca$Wasserstein()), ca$SqExponentialKernel()))
 > skce$.(predictions, outcomes)
 [1] 0.02301165
 ```
@@ -172,20 +161,18 @@ where `p = N(μ, σ)` and `p̃ = N(μ̃, σ̃)`.
 
 `rcalibration` provides different calibration tests that estimate the p-value of the null hypothesis
 that a model is calibrated, based on a set of predictions and outcomes:
-- `ct$ConsistencyTest` estimates the p-value with consistency resampling for a given calibration error estimator
-- `ct$DistributionFreeSKCETest` computes distribution-free (and therefore usually quite weak) upper bounds of the p-value for different estimators of the SKCE
-- `ct$AsymptoticBlockSKCETest` estimates the p-value based on the asymptotic distribution of the unbiased block estimator of the SKCE
-- `ct$AsymptoticSKCETest` estimates the p-value based on the asymptotic distribution of the unbiased estimator of the SKCE
-- `ct$AsymptoticCMETest` estimates the p-value based on the asymptotic distribution of the UCME
+- `ca$ConsistencyTest` estimates the p-value with consistency resampling for a given calibration error estimator
+- `ca$DistributionFreeSKCETest` computes distribution-free (and therefore usually quite weak) upper bounds of the p-value for different estimators of the SKCE
+- `ca$AsymptoticBlockSKCETest` estimates the p-value based on the asymptotic distribution of the unbiased block estimator of the SKCE
+- `ca$AsymptoticSKCETest` estimates the p-value based on the asymptotic distribution of the unbiased estimator of the SKCE
+- `ca$AsymptoticCMETest` estimates the p-value based on the asymptotic distribution of the UCME
 
 ```R
 > library(extraDistr)
-> ct <- caltests()
 > set.seed(1234)
 > predictions <- rdirichlet(100, c(3, 2, 5))
 > outcomes <- sample(1:3, 100, replace=TRUE)
-> kernel <- ct$tensor(ct$ExponentialKernel(metric=ct$TotalVariation()), ct$WhiteKernel())
-> test <- ct$AsymptoticSKCETest(kernel, ce$RowVecs(predictions), outcomes)
+> test <- ca$AsymptoticSKCETest(kernel, ca$RowVecs(predictions), outcomes)
 > print(test)
 Julia Object of type AsymptoticSKCETest{KernelTensorProduct{Tuple{ExponentialKernel{TotalVariation}, WhiteKernel}}, Float64, Float64, Matrix{Float64}}.
 Asymptotic SKCE test
@@ -201,19 +188,18 @@ Test summary:
 
 Details:
     test statistic: -0.007291403994633658
-> ct$pvalue(test)
+> ca$pvalue(test)
 [1] 0.004
 ```
 
-## References
+## Citing
 
-If you use pycalibration as part of your research, teaching, or other activities,
-please consider citing the following publications:
+If you use rcalibration as part of your research, teaching, or other activities, please consider citing the following publications:
 
-Widmann, D., Lindsten, F., & Zachariah, D. (2019). [Calibration tests in multi-class
-classification: A unifying framework](https://proceedings.neurips.cc/paper/2019/hash/1c336b8080f82bcc2cd2499b4c57261d-Abstract.html). In
-*Advances in Neural Information Processing Systems 32 (NeurIPS 2019)* (pp. 12257–12267).
+Widmann, D., Lindsten, F., & Zachariah, D. (2019). [Calibration tests in multi-class classification: A unifying framework](https://proceedings.neurips.cc/paper/2019/hash/1c336b8080f82bcc2cd2499b4c57261d-Abstract.html). In *Advances in Neural Information Processing Systems 32 (NeurIPS 2019)* (pp. 12257–12267).
 
-Widmann, D., Lindsten, F., & Zachariah, D. (2021).
-[Calibration tests beyond classification](https://openreview.net/forum?id=-bxf89v3Nx).
-To be presented at *ICLR 2021*.
+Widmann, D., Lindsten, F., & Zachariah, D. (2021). [Calibration tests beyond classification](https://openreview.net/forum?id=-bxf89v3Nx). *International Conference on Learning Representations (ICLR 2021)*.
+
+## Acknowledgements
+
+This work was financially supported by the Swedish Research Council via the projects *Learning of Large-Scale Probabilistic Dynamical Models* (contract number: 2016-04278), *Counterfactual Prediction Methods for Heterogeneous Populations* (contract number: 2018-05040), and *Handling Uncertainty in Machine Learning Systems* (contract number: 2020-04122), by the Swedish Foundation for Strategic Research via the project *Probabilistic Modeling and Inference for Machine Learning* (contract number: ICA16-0015), by the Wallenberg AI, Autonomous Systems and Software Program (WASP) funded by the Knut and Alice Wallenberg Foundation, and by ELLIIT.

@@ -1,20 +1,19 @@
-#' Load namespace of CalibrationErrors.jl
+#' Load namespace of CalibrationErrors.jl and CalibrationTests.jl
 #'
 #' @export
-calerrors <- function() wrap_julia_pkg("CalibrationErrors")
+load <- function() {
+  # Define RCalibration submodule
+  JuliaCall::julia_command(paste0('include("', system.file("julia/RCalibration.jl", package = "rcalibration"), '");'))
 
-#' Load namespace of CalibrationTests.jl
-#'
-#' @export
-caltests <- function() wrap_julia_pkg("CalibrationTests")
+  # Obtain exports of CalibrationErrors and CalibrationTests
+  mods <- c("RCalibration.CalibrationErrors", "RCalibration.CalibrationTests")
+  exports <- unique(unlist(lapply(mods, julia_exports)))
 
-wrap_julia_pkg <- function(pkg) {
-  # precompile and load Julia package
-  JuliaCall::julia_command(paste0("using ", pkg, ": ", pkg))
+  JuliaCall::julia_pkg_import("Main.RCalibration", exports)
+}
 
-  # obtain a list of exported symbols with valid identifiers
-  cmd <- paste0("filter(isascii, map(string, propertynames(", pkg, ")))")
-  exports <- JuliaCall::julia_eval(cmd)
-
-  JuliaCall::julia_pkg_import(pkg, func_list = exports)
+#' Obtain a list of exported symbols with valid identifiers
+julia_exports <- function(mod) {
+  cmd <- paste0("filter(isascii, map(x -> replace(string(x), \"!\" => \"_bang\"), propertynames(", mod, ")))")
+  JuliaCall::julia_eval(cmd)
 }

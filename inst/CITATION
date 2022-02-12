@@ -1,0 +1,34 @@
+citHeader("To cite rcalibration use:")
+
+citEntry(entry = "Article",
+  title        = "Calibration tests in multi-class classification: A unifying framework",
+  author       = personList(as.person("David Widmann"),
+                   as.person("Fredrik Lindsten"), as.person("Dave Zachariah")),
+  journal      = "Advances in Neural Information Processing Systems",
+  year         = "2019",
+  volume       = "32",
+  pages        = "12236--12246",
+  url          = "http://papers.nips.cc/paper/9392-calibration-tests-in-multi-class-classification-a-unifying-framework",
+
+  textVersion  =
+  paste("David Widmann, Fredrik Lindsten, and Dave Zachariah (2019).",
+        "Calibration tests in multi-class classification: A unifying framework.",
+        "Advances in Neural Information Processing Systems 32, 12236-12246.",
+        "URL http://papers.nips.cc/paper/9392-calibration-tests-in-multi-class-classification-a-unifying-framework.")
+)
+
+citEntry(entry = "Article",
+  title        = "Calibration tests beyond classification",
+  author       = personList(as.person("David Widmann"),
+                   as.person("Fredrik Lindsten"), as.person("Dave Zachariah")),
+  journal      = "International Conference on Learning Representations",
+  year         = "2021",
+  url          = "https://openreview.net/forum?id=-bxf89v3Nx",
+
+  textVersion  =
+  paste("David Widmann, Fredrik Lindsten, and Dave Zachariah (2021).",
+        "Calibration tests beyond classification.",
+        "International Conference on Learning Representations.",
+        "URL https://openreview.net/forum?id=-bxf89v3Nx")
+)
+
