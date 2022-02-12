@@ -7,8 +7,8 @@
 #' @export
 install <- function() {
   # Update Julia LOAD_PATH
-  load_path <- system.file("julia", package = "rcalibration")
-  JuliaCall::julia_command(paste0('first(LOAD_PATH) != "', load_path, '" && pushfirst!(LOAD_PATH, "', load_path, '")'))
+  load_path <- system.file("julia/RCalibration", package = "rcalibration")
+  JuliaCall::julia_command(paste0('first(LOAD_PATH) != "', load_path, '" && pushfirst!(LOAD_PATH, "', load_path, '");'))
 
   # Install RCalibration package
   JuliaCall::julia_command('import Pkg; Pkg.add("RCalibration")')
