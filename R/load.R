@@ -2,6 +2,10 @@
 #'
 #' @export
 load <- function() {
+  # Update Julia LOAD_PATH
+  load_path <- system.file("julia/RCalibration", package = "rcalibration")
+  JuliaCall::julia_command(paste0('first(LOAD_PATH) != "', load_path, '" && pushfirst!(LOAD_PATH, "', load_path, '");'))
+
   # Load RCalibration package
   JuliaCall::julia_library("RCalibration")
 
