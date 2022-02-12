@@ -3,7 +3,7 @@
 #' @export
 load <- function() {
   # Define RCalibration submodule
-  JuliaCall::julia_command(paste0('include("', system.file("julia/RCalibration.jl", package = "rcalibration"), '")'))
+  JuliaCall::julia_command(paste0('include("', system.file("julia/RCalibration.jl", package = "rcalibration"), '");'))
 
   # Obtain exports of CalibrationErrors and CalibrationTests
   mods <- c("RCalibration.CalibrationErrors", "RCalibration.CalibrationTests")
